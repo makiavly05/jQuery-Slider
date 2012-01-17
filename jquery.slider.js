@@ -3,7 +3,7 @@
  jQuery Slider version 0.1
  http://neo-geek.net/work/jquery-slider/
  
- Copyright (c) 2011 Neo Geek
+ Copyright (c) 2012 Neo Geek
  Dual-licensed under both MIT and BSD licenses.
  
  Permission is hereby granted, free of charge, to any person obtaining a copy
