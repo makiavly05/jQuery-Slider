@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------
  
- jQuery Slider version 0.1
+ jQuery Slider version 0.2
  http://neo-geek.net/work/jquery-slider/
  
  Copyright (c) 2012 Neo Geek
@@ -32,26 +32,35 @@
 		
 		init: function (options) {
 		
-			var options = $.extend({loop:false, start:1}, options);
+			var options = $.extend({'loop':false}, options);
 			
 			return this.each(function() {
 				
 				var $this = $(this);
 				
-				if ($this.data('page')) { $this.html($this.children().html()); }
+				if ($this.data('pages')) { $this.html($this.children().html()); }
 				
 				if (!options.width) { options.width = $this.children().outerWidth(); }
 				
-				visible = Math.floor(options.width / $this.children().outerWidth());
+				$this.data('options', options);
 				
-				$this.data('page', options.start).data('visible', visible).data('loop', options.loop).data('pages', Math.ceil($this.children().length / visible));
-				$this.data('width', $this.children().outerWidth() * $this.data('visible'));
+				$this.data('visible', Math.floor(options.width / $this.children().outerWidth()));
+				$this.data('pages', Math.ceil($this.children().length / $this.data('visible')));
+				$this.data('innerWidth', $this.children().outerWidth() * $this.data('visible'));
 				
-				$this.css({width: options.width, overflow: 'hidden', position: 'relative'});
-				$this.children().css({float: 'left'});
-				$this.html('<div style="position: relative; width: ' + $this.children().outerWidth() * $this.children().length + 'px; left: 0; overflow: hidden;">' + $this.html() + '</div>');
+				$this.css({width: options.width, position: 'relative', overflow: 'hidden'});
 				
-				if (options.start != 1) { $this.slider('move', options.start); }
+				$this.children().css({'float': 'left'});
+				
+				$this.children().first().addClass('first');
+				
+				$this.html('<div style="position: relative; left: 0; top: 0; width: ' + $this.children().outerWidth() * $this.children().length + 'px; overflow: hidden;">' + $this.html() + '</div>');
+				
+				if (options.start != 1) {
+					jQuery.fx.off = true;
+					$this.slider('move', options.start);
+					jQuery.fx.off = false;
+				}
 				
 			});
 			
@@ -59,26 +68,35 @@
 		
 		move: function(num) {
 			
-			if (this.children().is(':animated')) { return false; }
+			$this = $(this);
 			
-			if (num < 0) { num = 1; }
-			else if (num > this.data('pages')) { num = this.data('pages'); }
+			if ($this.children().is(':animated')) { return false; }
 			
-			this.children().animate({left: -this.data('width') * (num-1)});
-			this.data('page', parseFloat(num));
+			first = $this.children().children().first();
 			
-			return this;
+			if ($this.children().find('.first').index()) {
+				$this.children().append($this.children().children().slice(0, $this.children().find('.first').index())).css({left: -$this.find(first).position().left});
+			}
+			
+			$this.children().animate({left: -$this.data('innerWidth') * (num-1)}, function() {
+				$this.children().css({left: 0}).append($this.children().children().slice(0, $this.data('visible') * (num-1)));
+			});
 			
 		},
 		
 		left: function() {
 			
-			if (!parseFloat(this.children().css('left'))) {
-				if (this.data('loop')) { this.slider('move', this.data('pages')); }
-				return false;
+			$this = $(this);
+			
+			if ($this.children().is(':animated')) { return false; }
+			
+			if ($this.data('options').loop) {
+				$this.children().prepend($this.children().children().slice(-$this.data('visible'))).css({left: -$this.data('innerWidth')});
 			}
 			
-			this.slider('move', this.data('page')-1);
+			if (parseFloat($this.children().css('left'))) {
+				$this.children().animate({left: '+=' + $this.data('innerWidth')});
+			}
 			
 			return this;
 			
@@ -86,12 +104,19 @@
 		
 		right: function() {
 			
-			if (this.data('width') - this.children().outerWidth() >= parseFloat(this.children().css('left'))) {
-				if (this.data('loop')) { this.slider('move', 1); }
-				return false;
-			}
+			$this = $(this);
 			
-			this.slider('move', this.data('page')+1);
+			if ($this.children().is(':animated')) { return false; }
+			
+			if (parseFloat($this.children().css('left')) > -(parseFloat($this.children().css('width'))-$this.data('innerWidth'))) {
+				
+				$this.children().animate({left: '-=' + $this.data('innerWidth')}, function() {
+					if ($this.data('options').loop) {
+						$this.children().css({left: 0}).append($this.children().children().slice(0, $this.data('visible')));
+					}
+				});
+				
+			}
 			
 			return this;
 			
