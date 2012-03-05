@@ -8,7 +8,7 @@ Usage
 
 This plugin requires very little in the way of HTML structure to get started. In the example below, a div contains figures all with the same width. An additional div contains links to move the slider left and right and to specific pages.
 
-	<div id="slider">
+	<div id="slider" style="width: 700px;">
 		
 		<figure>
 			<img src="/images/photo_01.jpg" width="350" height="250" alt="New York City" />
@@ -41,13 +41,13 @@ This plugin requires very little in the way of HTML structure to get started. In
 			<a href="#right">Next &#8594;</a>
 	</div>
 
-To activate the slider without specifying a width (uses the width of the children objects) or any other options, use the following code.
+To activate the slider without specifying a width (uses the width of slider container) or any other options, use the following code.
 
 	$('#slider').slider();
 
 Examples of options.
 
-	$('#slider').slider({width:800}); // Sets the slider wrapper to 800px wide. (Integer)
+	$('#slider').slider({width:700}); // Sets the slider wrapper to 700px wide. (Integer)
 	$('#slider').slider({start: 1}); // Animates to the specified position. (Integer)
 	$('#slider').slider({loop: true}); // Scrolls from last to first and vice versa. (Boolean)
 

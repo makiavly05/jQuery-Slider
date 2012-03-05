@@ -1,7 +1,7 @@
 /* ------------------------------------------------------------
  
- jQuery Slider version 0.2
- http://neo-geek.net/work/jquery-slider/
+ jQuery Slider version 0.2.1
+ http://neogeek.github.com/jQuery-Slider/
  
  Copyright (c) 2012 Neo Geek
  Dual-licensed under both MIT and BSD licenses.
@@ -38,9 +38,19 @@
 				
 				var $this = $(this);
 				
-				if ($this.data('pages')) { $this.html($this.children().html()); }
+				if (!options.width) {
+					
+					$this.css('width', '');
+					options.width = $this.outerWidth();
+					
+					if ($this.data('options') && $this.data('options').width == options.width) {
+						$this.css('width', options.width);
+						return false;
+					}
+					
+				}
 				
-				if (!options.width) { options.width = $this.children().outerWidth(); }
+				if ($this.data('pages')) { $this.html($this.children().html()); }
 				
 				$this.data('options', options);
 				
@@ -74,12 +84,14 @@
 			
 			first = $this.children().children().first();
 			
-			if ($this.children().find('.first').index()) {
+			if ($this.data('options').loop && $this.children().find('.first').index()) {
 				$this.children().append($this.children().children().slice(0, $this.children().find('.first').index())).css({left: -$this.find(first).position().left});
 			}
 			
 			$this.children().animate({left: -$this.data('innerWidth') * (num-1)}, function() {
-				$this.children().css({left: 0}).append($this.children().children().slice(0, $this.data('visible') * (num-1)));
+				if ($this.data('options').loop) {
+					$this.children().css({left: 0}).append($this.children().children().slice(0, $this.data('visible') * (num-1)));
+				}
 			});
 			
 		},
