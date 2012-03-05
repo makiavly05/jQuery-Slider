@@ -66,6 +66,10 @@ pre {
 	text-align: center;
 }
 
+.demo .navigation .more {
+	display: none;
+}
+
 .code {
 	background: #f5f5f5;
 	box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.25);
@@ -112,9 +116,12 @@ pre {
 	}
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 750px) {
 	.demo div {
 		width: 350px;
+	}
+	.demo .navigation .more {
+		display: inline;
 	}
 }
 
@@ -157,10 +164,10 @@ pre {
 				<a href="#slider1_2">2</a>
 				<a href="#slider1_3">3</a>
 				<a href="#slider1_4">4</a>
-				<a href="#slider1_5">5</a>
-				<a href="#slider1_6">6</a>
-				<a href="#slider1_7">7</a>
-				<a href="#slider1_8">8</a>
+				<a href="#slider1_5" class="more">5</a>
+				<a href="#slider1_6" class="more">6</a>
+				<a href="#slider1_7" class="more">7</a>
+				<a href="#slider1_8" class="more">8</a>
 			</span>
 			<a href="#slider1_right">Next &#8594;</a>
 		</div>
@@ -168,14 +175,14 @@ pre {
 	</div>
 	
 	<div class="code">
-		<pre>$('#slider1').slider({width: 700});
+		<pre>$('#slider1').slider();
 $('a[href=#slider1_left]').click(function() { $('#slider1').slider('left'); return false; });
 $('a[href=#slider1_right]').click(function() { $('#slider1').slider('right'); return false; });</pre>
 </div>
 	
 	<script type="text/javascript">
 	
-	$('#slider1').slider({width: 700});
+	$('#slider1').slider();
 	$('a[href=#slider1_left]').click(function() { $('#slider1').slider('left'); return false; });
 	$('a[href=#slider1_right]').click(function() { $('#slider1').slider('right'); return false; });
 	
@@ -205,10 +212,10 @@ $('a[href=#slider1_right]').click(function() { $('#slider1').slider('right'); re
 				<a href="#slider2_2">2</a>
 				<a href="#slider2_3">3</a>
 				<a href="#slider2_4">4</a>
-				<a href="#slider2_5">5</a>
-				<a href="#slider2_6">6</a>
-				<a href="#slider2_7">7</a>
-				<a href="#slider2_8">8</a>
+				<a href="#slider2_5" class="more">5</a>
+				<a href="#slider2_6" class="more">6</a>
+				<a href="#slider2_7" class="more">7</a>
+				<a href="#slider2_8" class="more">8</a>
 			</span>
 			<a href="#slider2_right">Next &#8594;</a>
 		</div>
@@ -216,14 +223,14 @@ $('a[href=#slider1_right]').click(function() { $('#slider1').slider('right'); re
 	</div>
 	
 	<div class="code">
-		<pre>$('#slider2').slider({width: 700, loop: true});
+		<pre>$('#slider2').slider({loop: true});
 $('a[href=#slider2_left]').click(function() { $('#slider2').slider('left'); return false; });
 $('a[href=#slider2_right]').click(function() { $('#slider2').slider('right'); return false; });</pre>
 </div>
 	
 	<script type="text/javascript">
 	
-	$('#slider2').slider({width: 700, loop: true});
+	$('#slider2').slider({loop: true});
 	$('a[href=#slider2_left]').click(function() { $('#slider2').slider('left'); return false; });
 	$('a[href=#slider2_right]').click(function() { $('#slider2').slider('right'); return false; });
 	$('#pagination2 a').click(function() { $('#slider2').slider('move', $(this).text()); return false; });
@@ -237,27 +244,11 @@ $('a[href=#slider2_right]').click(function() { $('#slider2').slider('right'); re
 	
 	<script type="text/javascript">
 	
-	var slider_700 = null;
-	var slider_auto = null;
-	
-	$(window).bind('resize load', function() {
-		if ($(this).width() > 700) {
-			if (!slider_700) {
-				$('#slider1').slider({width:700});
-				$('#slider2').slider({width:700, loop: true});
-				$('#pagination1 a:gt(3), #pagination2 a:gt(3)').hide();
-			}
-			slider_700 = true;
-			slider_auto = null;
-		} else {
-			if (!slider_auto) {
-				$('#slider1').slider({});
-				$('#slider2').slider({loop: true});
-				$('#pagination1 a:gt(3), #pagination2 a:gt(3)').show();
-			}
-			slider_700 = null;
-			slider_auto = true;
-		}
+	$(window).bind('resize', function() {
+		
+		$('#slider1').slider();
+		$('#slider2').slider({loop:true});
+		
 	});
 	
 	</script>
