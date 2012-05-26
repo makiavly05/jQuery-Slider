@@ -1,6 +1,6 @@
 /* ------------------------------------------------------------
  
- jQuery Slider version 0.2.1
+ jQuery Slider version 0.2.2
  http://neogeek.github.com/jQuery-Slider/
  
  Copyright (c) 2012 Neo Geek
@@ -62,7 +62,7 @@
 				
 				$this.children().css({'float': 'left'});
 				
-				$this.children().first().addClass('first');
+				if (!$this.find('.first').length) { $this.children().first().addClass('first'); }
 				
 				$this.html('<div style="position: relative; left: 0; top: 0; width: ' + $this.children().outerWidth() * $this.children().length + 'px; overflow: hidden;">' + $this.html() + '</div>');
 				
