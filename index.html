@@ -265,7 +265,7 @@ $('a[href=#slider2_right]').click(function() { $('#slider2').slider('right'); re
 				
 			}).on('touchend', function(e) {
 				
-				if (Math.abs(startX - endX) > $this.width() / 2) {
+				if (Math.abs(startX - endX) > $this.width() / 3) {
 					$this.unbind('touchmove touchend').slider(startX > endX ? 'right' : 'left');
 				}
 				
