@@ -255,16 +255,18 @@ $('a[href=#slider2_right]').click(function() { $('#slider2').slider('right'); re
 		
 		$('#slider1, #slider2').on('touchstart', function(e) {
 			
+			$this = $(this);
+			
 			startX = e.originalEvent.touches[0].pageX;
 			
-			$(this).on('touchmove', function(e) {
+			$this.on('touchmove', function(e) {
 				
 				endX = e.originalEvent.touches[0].pageX;
 				
 			}).on('touchend', function(e) {
 				
-				if (Math.abs(startX - endX) > 50) {
-					$(this).unbind('touchmove touchend').slider(startX > endX ? 'right' : 'left');
+				if (Math.abs(startX - endX) > $this.width() / 2) {
+					$this.unbind('touchmove touchend').slider(startX > endX ? 'right' : 'left');
 				}
 				
 			});
