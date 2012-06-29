@@ -63,6 +63,8 @@ To move the slider to a specific page use the following code on a group of ancho
 To make the slider keyboard accessible, use the code below.
 
 	$(document).keydown(function(event) {
-		if (event.which == 37) { $('#slider').slider('left'); return false; }
-		else if (event.which == 39) { $('#slider').slider('right'); return false; }
+		if (!event.metaKey) {
+			if (event.which == 37) { $('#slider').slider('left'); return false; }
+			else if (event.which == 39) { $('#slider').slider('right'); return false; }
+		}
 	});
