@@ -263,10 +263,8 @@ $('a[href=#slider2_right]').click(function() { $('#slider2').slider('right'); re
 				
 				endX = e.originalEvent.touches[0].pageX;
 				
-			}).on('touchend', function(e) {
-				
 				if (Math.abs(startX - endX) > $this.width() / 3) {
-					$this.unbind('touchmove touchend').slider(startX > endX ? 'right' : 'left');
+					$this.unbind('touchmove').slider(startX > endX ? 'right' : 'left');
 				}
 				
 			});
